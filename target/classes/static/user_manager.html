@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	$(function(){
+		if(window !=top){
+			top.location.href=location.href;
+		}
+		 $.ajax({
+		        type:'get',
+		        dataType: "json",
+		        url:"api/checkUser",
+		        data:{ time:new Date()},
+		        success:function(data){
+		        	var flag = data.success;
+		        	if(flag){
+		        		
+		        	}else{
+		        		$(location).attr('href', 'login.html');
+		        	}
+		        },
+		        error:function(){
+		        }
+		    });
+	})
+</script>
+</head>
+<body>
+
+	user_manager.html
+	
+</body>
+</html>

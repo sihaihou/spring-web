@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+
+    var webSocket = null;
+    var from = [[${from}]];
+    var to = [[${to}]];
+
+    function openSocket() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket, 请升级您的浏览器的版本");
+        }else{
+            // 连接WebSocket服务器端
+            var userId = [[${from}]];
+            webSocket = new WebSocket("ws://localhost:8080/websocket/" + userId);
+
+            // 打开事件
+            webSocket.onopen = function() {
+                console.log("连接服务器成功。");
+            };
+
+            // 获得消息事件
+            webSocket.onmessage = function(msg) {
+                console.log(msg.data);
+                document.getElementById('message').innerHTML += msg.data + '<br/>';
+            };
+
+            // 关闭事件
+            webSocket.onclose = function() {
+                console.log("websocket已关闭");
+            };
+
+            // 错误事件
+            webSocket.onerror = function(socket, event) {
+                console.log("websocket发生了错误");
+            };
+
+            // 监听浏览器窗口关闭事件，当关闭窗口时关闭websocket连接，节省连接资源
+            window.onbeforeunload = function () {
+                websocket.close();
+            }
+        }
+    }
+
+    function sendMessage() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else {
+            var content = document.getElementById('msg').value;
+            var payload = {'from': from, 'to': to, 'content': content}
+            webSocket.send(JSON.stringify(payload));
+        }
+    }
+   
+</script>
+<body>
+
+	<a href="login.html">登录</a>
+<input id="msg" type="text"/>
+
+<button onclick="sendMessage()">发送消息</button>
+<button onclick="openSocket()">连接WebSocket(只需执行一次)</button>
+
+<div id="message"></div>
+
+
+</body>
+</html>

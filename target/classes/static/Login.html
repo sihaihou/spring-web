@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	$(function() {
+		cookiesEnabled();
+		captcha();
+		
+	})
+
+	function captcha() {
+		$
+				.ajax({
+					type : 'get',
+					dataType : "json",
+					url : "api/captcha",
+					data : {
+						time : new Date()
+					},
+					success : function(data) {
+						var flag = data.success;
+						if (flag) {
+							$("#msg").html("")
+							$("#captcha").html(data.data.value);
+						} else {
+							$("#msg")
+									.html(
+											"<font color='red'>" + data.msg
+													+ "</font>");
+						}
+					},
+					error : function() {
+					}
+				});
+	}
+	function login() {
+		var userEntity = {
+			"id" : "1",
+			"username" : $("#username").val(),
+			"password" : $("#password").val(),
+			"captcha" : $("#captchas").val()
+		};//json对象
+		var userEntityJson = JSON.stringify(userEntity);
+		$
+				.ajax({
+					type : 'post',
+					dataType : "json",
+					url : "api/login",
+					data : userEntity,
+					beforeSend : function(data) {
+					},
+					success : function(data) {
+						var flag = data.success;
+						console.log("当前登录用户是=====" + data.success);
+						if (flag) {
+							$(location).attr('href', 'user_manager.html');
+						} else {
+							$("#msg")
+									.html(
+											"<font color='red'>" + data.msg
+													+ "</font>");
+						}
+					},
+					complete : function(data) {
+					},
+					error : function() {
+						$(location).attr('href', 'login.html');
+					}
+				})
+	}
+	/* 判断浏览器cookie是否开启 */
+	function cookiesEnabled() {
+		var cookieEnabled = navigator.cookieEnabled;
+		if (cookieEnabled === false) {
+			alert(false);
+			return false;
+		}
+	}
+</script>
+</head>
+<body>
+	<span id="msg"></span>
+	<br> 用户名
+	<input id="username" type="text" name="name" />
+	<br> 密码
+	<input id="password" type="text" name="password" />
+	<br> 验证码
+	<input id="captchas" type="text" name="captcha" />
+	<span id="captcha" onclick="captcha()">生成验证码</span>
+	<br>
+	<input type="button" onclick="login()" value="login" />
+</body>
+</html>

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.reyco.kn.core.domain.Result;
 import com.reyco.kn.core.domain.UserEntity;
 import com.reyco.kn.core.service.UserService;
+import com.reyco.kn.core.utils.R;
 
 @RestController
 @RequestMapping("/api")
@@ -23,18 +23,12 @@ public class UserController {
 	
 	
 	@RequestMapping("get/{id}")
-	public Result get(@PathVariable(name="id")Integer id) {
-		Result result = new Result();
+	public String get(@PathVariable(name="id")Integer id) {
 		UserEntity userEntity = userService.get(id);
 		if(null==userEntity) {
-			result.setSuccess(true);
-			result.setMsg("暂无数据");
-			result.setData(null);
-			return result;
+			return R.noData().toJSON();
 		}
-		result.setSuccess(true);
-		result.setData(userEntity);
-		return result;
+		return R.successToJson(userEntity);
 	}
 	
 	@RequestMapping("update")
@@ -56,18 +50,12 @@ public class UserController {
 	}
 	
 	@RequestMapping("save")
-	public Result save(@RequestBody UserEntity userEntity) {
-		Result result = new Result();
+	public String save(@RequestBody UserEntity userEntity) {
 		UserEntity save = userService.save(userEntity);
-		if(null==userEntity) {
-			result.setSuccess(true);
-			result.setMsg("暂无数据");
-			result.setData(null);
-			return result;
+		if(null==save) {
+			return R.noData().toJSON();
 		}
-		result.setSuccess(true);
-		result.setData(userEntity);
-		return result;
+		return R.successToJson(userEntity);
 	}
 	
 	

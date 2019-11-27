@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.reyco.kn.core.domain.Result;
 import com.reyco.kn.core.utils.CacheUtils;
 import com.reyco.kn.core.utils.CookieUtil;
-import com.reyco.kn.core.utils.JsonUtils;
+import com.reyco.kn.core.utils.R;
 
 @Component("securityIntercepter")
 public class SecurityIntercepter implements HandlerInterceptor{
@@ -27,14 +26,14 @@ public class SecurityIntercepter implements HandlerInterceptor{
 		//logger.info("demoInterceptor...拦截器实现方式一");
 		String cookie = CookieUtil.getCookieByName(request, "kn_token");
 		if(null == cookie) {
-			Result result = Result.fail("你未登陆...");
-			response.getWriter().print(JsonUtils.objToJson(result));
+			String result = R.failToJson("你未登陆...", "用户未登录");
+			response.getWriter().print(result);
 			return false;
 		}
 		Object object = CacheUtils.get(cookie);
 		if(null== object) {
-			Result result = Result.fail("登陆失效...");
-			response.getWriter().print(JsonUtils.objToJson(result));
+			String result = R.failToJson("登陆失效...", "session过期...");
+			response.getWriter().print(result);
 			return false;
 		}
 		return true;

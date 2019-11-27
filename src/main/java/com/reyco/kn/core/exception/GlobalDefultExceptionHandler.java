@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.reyco.kn.core.domain.Result;
+import com.reyco.kn.core.utils.R;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalDefultExceptionHandler {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -29,9 +29,9 @@ public class GlobalDefultExceptionHandler {
 	 * @param ex
 	 * @return
 	 */
-	@ExceptionHandler(Exception.class)
 	@ResponseBody
-	public Result defultExcepitonHandler(HttpServletRequest reuqest, HttpServletResponse response, Exception ex) {
+	@ExceptionHandler(Exception.class)
+	public String defultExcepitonHandler(HttpServletRequest reuqest, HttpServletResponse response, Exception ex) {
 		ex.printStackTrace();
 		try {
 			// 自定义异常...
@@ -73,90 +73,69 @@ public class GlobalDefultExceptionHandler {
 	 * @param ex
 	 * @return
 	 */
-	private Result getIllegalArgumentException(Exception ex) {
-		Result result = new Result();
+	private String getIllegalArgumentException(Exception ex) {
 		logger.error("非法参数异常：" + ex.getMessage());
 		IllegalArgumentException illegalArgumentException = (IllegalArgumentException) ex;
-		result.setSuccess(false);
-		result.setMsg("非法参数异常：" + "msg=" + illegalArgumentException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "非法参数异常：" + "msg=" + illegalArgumentException.getMessage());
 	}
 	/**
 	 * 空指针异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getNullPointerException(Exception ex) {
-		Result result = new Result();
+	private String getNullPointerException(Exception ex) {
 		logger.error("空指针异常：" + ex.getMessage());
 		NullPointerException nullPointerException = (NullPointerException) ex;
-		result.setSuccess(false);
-		result.setMsg("空指针异常：" + "msg=" + nullPointerException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "空指针异常：" + "msg=" + nullPointerException.getMessage());
 	}
 	/**
 	 * SQL语句异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getSQLException(Exception ex) {
-		Result result = new Result();
+	private String getSQLException(Exception ex) {
 		logger.error("SQL语句异常：" + ex.getMessage());
 		SQLException qQLException = (SQLException) ex;
-		result.setSuccess(false);
-		result.setMsg("SQL语句异常：" + "msg=" + qQLException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "SQL语句异常：" + "msg=" + qQLException.getMessage());
 	}
 	/**
 	 * 数字转换异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getNumberFormatException(Exception ex) {
-		Result result = new Result();
+	private String getNumberFormatException(Exception ex) {
 		logger.error("数字转换异常：" + ex.getMessage());
 		NumberFormatException numberFormatException = (NumberFormatException) ex;
-		result.setSuccess(false);
-		result.setMsg("数字转换异常：" + "msg=" + numberFormatException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...","数字转换异常：" + "msg=" + numberFormatException.getMessage());
 	}
 	/**
 	 * 数组溢出异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getArrayIndexOutOfBoundsException(Exception ex) {
-		Result result = new Result();
+	private String getArrayIndexOutOfBoundsException(Exception ex) {
 		logger.error("数组溢出异常：" + ex.getMessage());
 		ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException = (ArrayIndexOutOfBoundsException) ex;
-		result.setSuccess(false);
-		result.setMsg("数组溢出异常：" + "msg=" + arrayIndexOutOfBoundsException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "数组溢出异常：" + "msg=" + arrayIndexOutOfBoundsException.getMessage());
 	}
 	/**
 	 * IO输入输出异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getIOException(Exception ex) {
-		Result result = new Result();
+	private String getIOException(Exception ex) {
 		logger.error("IO输入输出异常：" + ex.getMessage());
 		IOException iOException = (IOException) ex;
-		result.setSuccess(false);
-		result.setMsg("IO输入输出异常：" + "msg=" + iOException.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "IO输入输出异常：" + "msg=" + iOException.getMessage());
 	}
 	/**
 	 * 系统异常
 	 * @param ex
 	 * @return
 	 */
-	private Result getException(Exception ex) {
-		Result result = new Result();
+	private String getException(Exception ex) {
 		logger.error("系统异常：" + ex);
-		result.setSuccess(false);
-		result.setMsg("系统异常：msg=" + ex.getMessage());
-		return result;
+		return R.errorToJson("未知异常,请联系管理员...", "系统异常：msg=" + ex.getMessage());
 	}
 	
 }

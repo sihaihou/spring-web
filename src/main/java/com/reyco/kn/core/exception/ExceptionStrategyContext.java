@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.reyco.kn.core.domain.Result;
-
 /**
  * 自定义异常处理策略
  * @author reyco
@@ -23,7 +21,7 @@ public class ExceptionStrategyContext {
 	@Autowired
 	private Map<String,ExceptionStrategy> exceptionStrategyMap = new HashMap<String,ExceptionStrategy>();
 	
-	public Result getExceptionMsg(String type,Exception e) {
+	public String getExceptionMsg(String type,Exception e) {
 		ExceptionStrategy exceptionStrategy = exceptionStrategyMap.get(type);
 		return exceptionStrategy.getExceptionMsg(e);
 	}

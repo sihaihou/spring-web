@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.reyco.kn.core.domain.Result;
+import com.reyco.kn.core.utils.R;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -23,23 +23,19 @@ public class UploadController {
 	private String serverurl = "http://localhost:8081/upload/images/";
 
 	/**
-	 * 上传裁剪图片，在实际生产中要进行分模块进行开发（MVC模式）
+	 * 上传裁剪图片
 	 * 
 	 * @throws IOException
 	 */
 	@PostMapping("/upload")
-	public Result uploadImage(@RequestParam(value = "x", required = false) Integer x,
+	public String uploadImage(@RequestParam(value = "x", required = false) Integer x,
 			@RequestParam(value = "y", required = false) Integer y,
 			@RequestParam(value = "height", required = false) int height,
 			@RequestParam(value = "width", required = false) int width,
 			@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) throws IOException {
-		Result result = new Result();
 		// 接收图片
 		if (file.isEmpty()) {
-			result.setSuccess(false);
-			result.setMsg("图片未找到...");
-			result.setCode(201);
-			return result;
+			return R.failToJson("图片不能为空...", "图片为空...");
 		}
 		// 保存图片
 		String realPath = request.getServletContext().getRealPath("/");
@@ -51,11 +47,7 @@ public class UploadController {
 		Thumbnails.of(tempFile).sourceRegion(x, y, width, height).size(width, height).keepAspectRatio(false).toFile(tempFile);
 		// 获取新图片地址
 		String imgUrl = serverurl + fileName;
-		result.setSuccess(true);
-		result.setData(imgUrl);
-		result.setMsg("成功");
-		result.setCode(200);
-		return result;
+		return R.successToJson(imgUrl, "成功");
 	}
 
 }

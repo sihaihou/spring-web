@@ -16,6 +16,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
@@ -25,12 +27,14 @@ import com.reyco.kn.core.annotation.MyCacheable;
 import com.reyco.kn.core.cache.KeyGenerator;
 import com.reyco.kn.core.domain.Result;
 import com.reyco.kn.core.utils.CacheUtils;
+import com.reyco.kn.core.utils.R;
 
 @SuppressWarnings("all")
 @Component
 @Scope
 @Aspect
-public class RateLimitAop {
+@Order(1001)
+public class RateLimitAop{
 	
 	private RateLimiter rateLimiter = RateLimiter.create(5.0,5,TimeUnit.SECONDS);
 	
@@ -45,10 +49,10 @@ public class RateLimitAop {
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object obj = null;
         try {
-            if (rateLimiter.tryAcquire(1,200,TimeUnit.MILLISECONDS)) {
+            if(rateLimiter.tryAcquire(1,200,TimeUnit.MILLISECONDS)) {
                 obj = joinPoint.proceed();
             }else{
-            	String result = JSONObject.toJSON(Result.fail("操作太频繁，请稍后再试")).toString();
+            	String result = R.failToJson("操作太频繁，请稍后再试", "系统繁忙");
                 output(response, result);
             }
         } catch (Throwable e) {

@@ -1,6 +1,7 @@
 package com.reyco.kn.core.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.reyco.kn.core.domain.Result;
 import com.reyco.kn.core.domain.UserEntity;
+import com.reyco.kn.core.utils.R;
 
 @RestController
 @RequestMapping("/api")
@@ -25,10 +26,10 @@ public class SwaggerController {
 	final static List<UserEntity> users = new ArrayList<UserEntity>();
 
 	@GetMapping("/user/list")
-	public Result list(@RequestParam Map<String, String> map) {
+	public String list(@RequestParam Map<String, String> map) {
 		List<UserEntity> selUsers = new ArrayList<UserEntity>();
 		if (!map.containsKey("pageNo")) {
-			return Result.fail("pageNo not is null...");
+			return R.failToJson("pageNo not is null...");
 		}
 		String pageNoStr = map.get("pageNo");
 		Integer pageNo = Integer.parseInt(pageNoStr);
@@ -44,54 +45,53 @@ public class SwaggerController {
 				selUsers.add(users.get(i));
 			}
 		}
-		Result result = Result.success(selUsers);
-		return result;
+		return R.successToJson(selUsers);
 	}
 
 	@GetMapping("/user/info/{id}")
-	public Result list(@PathVariable(name = "id") Integer id) {
+	public String list(@PathVariable(name = "id") Integer id) {
 		if (null == id) {
-			return Result.fail("id not is null...");
+			return R.failToJson("id not is null...");
 		}
 		if (id > users.size() - 1) {
-			return Result.success(null);
+			return R.failToJson(null);
 		}
 		UserEntity userEntity = users.get(id - 1);
-		return Result.success(userEntity);
+		return R.successToJson(userEntity);
 	}
 
 	@PostMapping("/user/save")
-	public Result list(@RequestBody UserEntity userEntity) {
+	public String list(@RequestBody UserEntity userEntity) {
 		if (null == userEntity || null == userEntity.getId() || StringUtils.isBlank(userEntity.getUsername())) {
-			return Result.fail("参数错误,请联系管理员...");
+			return R.failToJson("参数错误,请联系管理员...");
 		}
 		users.add(userEntity);
-		return Result.success();
+		return R.successToJson();
 	}
 
 	@PostMapping("/user/update")
-	public Result update(@RequestBody UserEntity userEntity) {
+	public String update(@RequestBody UserEntity userEntity) {
 		if (null == userEntity || null == userEntity.getId() || StringUtils.isBlank(userEntity.getUsername())) {
-			return Result.fail("参数错误,请联系管理员...");
+			return R.failToJson("参数错误,请联系管理员...");
 		}
 		if (userEntity.getId() - 1 > users.size()) {
-			return Result.fail("用户不存在");
+			return R.failToJson("用户不存在");
 		}
 		users.remove(userEntity.getId() - 1);
 		users.add(userEntity);
-		return Result.success();
+		return R.successToJson();
 	}
 
 	@DeleteMapping("/user/delete/{id}")
-	public Result update(@PathVariable(name = "id") Integer id) {
+	public String update(@PathVariable(name = "id") Integer id) {
 		if (null == id) {
-			return Result.fail("id not is null...");
+			return R.failToJson("id not is null...");
 		}
 		if (id > users.size()) {
-			return Result.success(null);
+			return R.successToJson(null);
 		}
 		users.remove(id - 1);
-		return Result.success();
+		return R.successToJson();
 	}
 
 	@PostConstruct
@@ -103,7 +103,7 @@ public class SwaggerController {
 			userEntity.setId(i);
 			userEntity.setUsername(username);
 			userEntity.setPassword("123456");
-			userEntity.setGmtCreate("2019-11+1" + i + " 14:00:00");
+			userEntity.setGmtCreate(new Date());
 			users.add(userEntity);
 		}
 		return users;

@@ -9,8 +9,8 @@ public class BaseEntity implements Serializable{
 	public String name;
 	public String desc;
 	public Integer state;
-	public String gmtCreate;
-	public String gmtModified;
+	public Date gmtCreate;
+	public Date gmtModified;
 	public String startTime;
 	public String endTime;
 	
@@ -38,16 +38,16 @@ public class BaseEntity implements Serializable{
 	public void setState(Integer state) {
 		this.state = state;
 	}
-	public String getGmtCreate() {
+	public Date getGmtCreate() {
 		return gmtCreate;
 	}
-	public void setGmtCreate(String gmtCreate) {
+	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
-	public String getGmtModified() {
+	public Date getGmtModified() {
 		return gmtModified;
 	}
-	public void setGmtModified(String gmtModified) {
+	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
 	public String getStartTime() {

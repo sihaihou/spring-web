@@ -13,6 +13,7 @@ import com.reyco.kn.core.annotation.MyCacheEvict;
 import com.reyco.kn.core.annotation.MyCacheable;
 import com.reyco.kn.core.dao.UserDao;
 import com.reyco.kn.core.domain.UserEntity;
+import com.reyco.kn.core.domain.UserEntity.UserEnitiyBuilder;
 import com.reyco.kn.core.service.UserService;
 
 @Service("userService")
@@ -46,9 +47,10 @@ public class UserServiceImpl implements UserService {
 	//@CacheEvict(key="#id")
 	@MyCacheEvict(keyGenerator="#id",name="user")
 	public void delete(Integer id) {
-		UserEntity userEntity = new UserEntity();
-		userEntity.setId(id);
-		userEntity.setState(1);
+		UserEnitiyBuilder builder = new UserEnitiyBuilder()
+				.builderId(id)
+				.builderState(1);
+		UserEntity userEntity = builder.builder();
 		//userDao.update(userEntity);
 	}
 	

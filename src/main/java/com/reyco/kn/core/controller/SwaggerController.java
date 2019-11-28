@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reyco.kn.core.domain.UserEntity;
+import com.reyco.kn.core.domain.UserEntity.UserEnitiyBuilder;
 import com.reyco.kn.core.utils.R;
 
 @RestController
@@ -99,11 +100,12 @@ public class SwaggerController {
 		UserEntity userEntity = null;
 		for (int i = 1; i < 11; i++) {
 			String username = "user" + i;
-			userEntity = new UserEntity();
-			userEntity.setId(i);
-			userEntity.setUsername(username);
-			userEntity.setPassword("123456");
-			userEntity.setGmtCreate(new Date());
+			UserEnitiyBuilder builder = new UserEnitiyBuilder()
+					.builderId(i)
+					.builderUsername(username)
+					.builderPassword("123456")
+					.builderGmtCreate(new Date());
+			userEntity = builder.builder();
 			users.add(userEntity);
 		}
 		return users;

@@ -1,6 +1,5 @@
 package com.reyco.kn.core.controller;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reyco.kn.core.annotation.RateLimit;
 import com.reyco.kn.core.domain.Captcha;
+import com.reyco.kn.core.domain.Captcha.CaptchaBuilder;
 import com.reyco.kn.core.domain.LoginLog;
+import com.reyco.kn.core.domain.LoginLog.LoginLigBuilder;
 import com.reyco.kn.core.domain.User;
 import com.reyco.kn.core.domain.UserEntity;
 import com.reyco.kn.core.service.UserService;
@@ -55,7 +56,7 @@ public class LoginController {
 		// 3.验证码设置cookie
 		CookieUtil.setCookie(request, response, "Kn_captcha", key, -1);
 		// 4.验证码返回给前端
-		Captcha captcha = new Captcha(key,code);
+		Captcha captcha = new CaptchaBuilder().builderKey(key).builderValue(code).builder();
 		return R.successToJson(captcha);
 	}
 	/**
@@ -102,16 +103,17 @@ public class LoginController {
 			logger.info("验证码错误");
 			return R.failToJson("验证码错误...","验证码错误...");
 		}
-		User user = new User();
-		user.setId(userEntity.getId());
-		user.setUsername(userEntity.getName());
+		User user = new User.UserBuilder()
+				.builderId(userEntity.getId())
+				.builderUsername(userEntity.getName())
+				.builder();
 		// 创建 token
 		String key = UUID.randomUUID().toString().replace("-", "");
 		CacheUtils.put(key, user);
 		// 设置cookie
 		CookieUtil.setCookie(request, response, "kn_token", key, -1);
 		// 设置cookie
-		LoginLog loginLog = new LoginLog();
+		LoginLog loginLog = new LoginLigBuilder().builder();
 		CookieUtil.setCookie(request, response, "kn_token", key, -1);
 		applicationContext.publishEvent(loginLog);
 		//返回数据

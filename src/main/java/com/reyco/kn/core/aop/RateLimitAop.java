@@ -25,7 +25,6 @@ import com.google.common.util.concurrent.RateLimiter;
 import com.reyco.kn.core.annotation.MyCacheEvict;
 import com.reyco.kn.core.annotation.MyCacheable;
 import com.reyco.kn.core.cache.KeyGenerator;
-import com.reyco.kn.core.domain.Result;
 import com.reyco.kn.core.utils.CacheUtils;
 import com.reyco.kn.core.utils.R;
 

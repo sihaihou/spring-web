@@ -3,15 +3,17 @@ package com.reyco.kn.core.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.reyco.kn.core.domain.Account;
+import com.reyco.kn.core.domain.UserEntity;
 import com.reyco.kn.core.service.impl.LoginService;
 import com.reyco.kn.core.utils.CusAccessObjectUtil;
 import com.reyco.kn.core.utils.IPDataUtils;
+import com.reyco.kn.core.utils.R2;
 
 @RestController
 @RequestMapping("/api")
@@ -37,9 +39,9 @@ public class TestController {
 	//}
 
 	@RequestMapping(value = "/test/test1", method = RequestMethod.GET)
-	public String test1(@RequestBody Account account) {
-		System.out.println("------account-------" + account);
-		return "" + account;
+	public String test1(@RequestBody UserEntity userEntity) {
+		System.out.println("------userEntity-------" + userEntity);
+		return "" + userEntity;
 	}
 	
 	@RequestMapping("/test/getIp")
@@ -50,5 +52,12 @@ public class TestController {
 		String city = IPDataUtils.getCity(ipAddress);
 		return ipAddress+"\t"+city;
 	}
+	
+	@GetMapping("r")
+	public R2 r2() {
+		return new R2.RBuilder().builderSuccess(true).builderCode(200).builderMsg("请求成功").builder();
+	}
+	
+	
 	
 }

@@ -44,20 +44,21 @@ public class RateLimiterUtils {
 		}
 	}
 
-	public static void exec() {
+	public static void exec() throws InterruptedException {
 		// 信号量
 		Semaphore semphore = new Semaphore(2, true);
 		for (int i = 0; i < 10; i++) {
+			TimeUnit.SECONDS.sleep(2);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					if (semphore.getQueueLength() > 2) {
-						System.out.println("当前等待排队的任务数大于2，请稍候再试...");
-					}
 					try {
+						if (semphore.getQueueLength() > 2) {
+							System.out.println("当前等待排队的任务数大于2，请稍候再试...");
+						}
 						if (semphore.tryAcquire(1, 1, TimeUnit.SECONDS)) {
 							// 处理核心逻辑
-							TimeUnit.SECONDS.sleep(2);
+							TimeUnit.SECONDS.sleep(3);
 							System.out.println("--" + System.currentTimeMillis() / 1000);
 						} else {
 							System.out.println("没有令牌，请稍候再试...");

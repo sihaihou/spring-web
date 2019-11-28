@@ -18,15 +18,16 @@ import com.google.gson.JsonParser;
 public class R implements Serializable{
 	
 	private static final long serialVersionUID = 5698278545387629199L;
+	
 	public final static String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 	public final static String DATE = "yyyy-MM-dd";
 	public final static String TIME = "HH:mm:ss";
 	
-	public final static Gson GSON_DATE_TIME = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+	private final static Gson GSON_DATE_TIME = new GsonBuilder().setDateFormat(DATE_TIME).create();
 	
-	public final static Gson GSON_DATE = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+	private final static Gson GSON_DATE = new GsonBuilder().setDateFormat(DATE).create();
 	
-	public final static Gson GSON_TIME = new GsonBuilder().setDateFormat("HH:mm:ss").create();
+	private final static Gson GSON_TIME = new GsonBuilder().setDateFormat(TIME).create();
 
 	
 	public final static String SAVE_SUCCESS = "提交成功";

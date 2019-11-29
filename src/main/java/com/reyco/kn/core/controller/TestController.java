@@ -1,5 +1,7 @@
 package com.reyco.kn.core.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reyco.kn.core.domain.UserEntity;
+import com.reyco.kn.core.service.Template;
+import com.reyco.kn.core.service.UserService;
 import com.reyco.kn.core.service.impl.LoginService;
 import com.reyco.kn.core.utils.CusAccessObjectUtil;
+import com.reyco.kn.core.utils.DeleteTemplate;
+import com.reyco.kn.core.utils.GetInfoTemplate;
 import com.reyco.kn.core.utils.IPDataUtils;
-import com.reyco.kn.core.utils.R2;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +30,11 @@ public class TestController {
 	
 	@Autowired
 	private LoginService loginService;
+	
+	
+	@Autowired
+	private UserService userService;
+	
 	
 	@RequestMapping(value = "/test/event", method = RequestMethod.GET)
 	public String event() throws InterruptedException {
@@ -53,11 +64,28 @@ public class TestController {
 		return ipAddress+"\t"+city;
 	}
 	
-	@GetMapping("r")
-	public R2 r2() {
-		return new R2.RBuilder().builderSuccess(true).builderCode(200).builderMsg("请求成功").builder();
+	@GetMapping("/test/get")
+	public Object r(@RequestParam Map<String,String> map) throws Exception {
+		Template temp =  new GetInfoTemplate() {
+			@Override
+			protected Object get() {
+				String idStr = map.get("userId");
+				return userService.get(Integer.parseInt(idStr));
+			}
+		};
+		return temp.handler(map);
 	}
+	@GetMapping("/test/delete")
+	public Object delete(@RequestParam Map<String,String> map) throws Exception {
+		Template  temp= new DeleteTemplate() {
+			@Override
+			protected void delete() {
+				String idStr = map.get("userId");
+				userService.delete(Integer.parseInt(idStr));
+			}
+		};
+		return temp.handler(map);
 	
-	
+	}
 	
 }

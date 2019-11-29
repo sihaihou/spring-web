@@ -94,6 +94,57 @@ public class ConcurrentHashMapCache implements Cache {
 		return true;
 	}
 	/**
+	 * 添加元素
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public Boolean existsPut(String key, Object value) {
+		return existsPut(key, value, null);
+	}
+	/**
+	 * 添加元素
+	 * @param key
+	 *            key
+	 * @param value
+	 *            value
+	 * @param duration
+	 *            有效时间/单位秒
+	 * @return
+	 */
+	@Override
+	public Boolean existsPut(String key, Object obj, Long duration) {
+		if (StringUtils.isBlank(key) || null == obj) {
+			return false;
+		}
+		if(store.containsKey(key)) {
+			return false;
+		}
+		Long ExpireTime = 0L;
+		// 默认缓存不失效时长
+		long currentTimeMillis = System.currentTimeMillis();
+		if (null == duration || duration == -1) {
+			// 默认缓存不失效
+			ExpireTime = Long.MAX_VALUE;
+		}else {
+			ExpireTime = currentTimeMillis + 1000*duration;
+		}
+		// 构建缓存描述对象
+		ExpireInfo expireInfo = new ExpireInfo();
+		expireInfo.setStartTime(new Date());
+		expireInfo.setDuration(duration);
+		expireInfo.setExpireTime(ExpireTime);
+		//添加缓存
+		store.put(key, obj);
+		storeObj.put(key, expireInfo);
+		logger.debug("key="+key+",value="+obj+",expireTime="+ExpireTime+",添加到缓存中.");
+		return true;
+	}
+	
+	
+	/**
 	 * 获取元素
 	 * @param key
 	 * @return
@@ -177,5 +228,23 @@ public class ConcurrentHashMapCache implements Cache {
 				remove(key);
 			}
 		}
+	}
+	@Override
+	public Boolean exists(String key) {
+		return store.containsKey(key);
+	}
+	@Override
+	public Boolean expire(String key) {
+		if(!store.containsKey(key)) {
+			return true;
+		}
+		// 是否过期
+		ExpireInfo expireInfo = storeObj.get(key);
+		long nowTime = System.currentTimeMillis();
+		Long expireTime = expireInfo.getExpireTime();
+		if (nowTime > expireTime) {
+			return true;
+		}
+		return false;
 	}
 }

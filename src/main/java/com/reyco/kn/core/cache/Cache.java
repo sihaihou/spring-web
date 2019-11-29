@@ -24,11 +24,38 @@ public interface Cache {
 	 */
 	public Boolean put(String key, Object obj,Long duration);
 	/**
+	 * 添加缓存对象:有则不添加，没有则添加
+	 * @param key
+	 * @param obj
+	 * @return
+	 */
+	public Boolean existsPut(String key, Object value);
+	/**
+	 * 添加缓存对象:有则不添加，没有则添加
+	 * @param key
+	 * @param obj
+	 * @param duration
+	 * @return
+	 */
+	public Boolean existsPut(String key, Object obj, Long duration);
+	/**
 	 * 获取缓存对象
 	 * @param key	缓存的key,通过该key可以获取对应的缓存对象
 	 * @return
 	 */
 	public Object get(String key);
+	/**
+	 * 判断key是否存在
+	 * @param key
+	 * @return
+	 */
+	public Boolean exists(String key);
+	/**
+	 * 判断key是否过期
+	 * @param key
+	 * @return
+	 */
+	public Boolean expire(String key);
 	/**
 	 * 缓存的数量大小
 	 * @return

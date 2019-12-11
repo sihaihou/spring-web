@@ -139,10 +139,27 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.8</version>
 		</dependency>
-		<!-- gson  -->
+		<!-- gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
+		</dependency>
+		<!-- jsch 所依赖的jar包 -->
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.51</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jzlib</artifactId>
+			<version>1.0.7</version>
+		</dependency>
+		<!-- ftpClient -->
+		<dependency>
+		     <groupId>commons-net</groupId>
+		     <artifactId>commons-net</artifactId>
+		     <version>3.3</version>
 		</dependency>
 	</dependencies>
 

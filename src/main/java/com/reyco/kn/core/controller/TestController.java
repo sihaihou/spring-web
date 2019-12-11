@@ -75,6 +75,7 @@ public class TestController {
 		};
 		return temp.handler(map);
 	}
+	
 	@GetMapping("/test/delete")
 	public Object delete(@RequestParam Map<String,String> map) throws Exception {
 		Template  temp= new DeleteTemplate() {

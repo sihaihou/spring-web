@@ -35,7 +35,7 @@ import com.reyco.kn.core.utils.R;
 @Order(1001)
 public class RateLimitAop{
 	
-	private RateLimiter rateLimiter = RateLimiter.create(5.0,5,TimeUnit.SECONDS);
+	private RateLimiter rateLimiter = RateLimiter.create(1000.0,1,TimeUnit.SECONDS);
 	
 	@Autowired
 	private HttpServletResponse response;

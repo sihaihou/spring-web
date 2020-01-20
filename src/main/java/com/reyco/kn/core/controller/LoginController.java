@@ -70,7 +70,7 @@ public class LoginController {
 	 */
 	//@RateLimit
 	@RequestMapping("/login")
-	public String Login(String username,String password,String captcha,HttpServletRequest request,HttpServletResponse response)throws Exception {
+	public String login(String username,String password,String captcha,HttpServletRequest request,HttpServletResponse response)throws Exception {
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(password)|| StringUtils.isBlank(captcha) ) {
 			logger.info("参数错误");
 			return R.failToJson("参数错误...","username"+username+",password"+password+",captcha"+captcha);

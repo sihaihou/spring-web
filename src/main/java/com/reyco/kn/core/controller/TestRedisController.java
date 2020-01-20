@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reyco.kn.core.annotation.RateLimit;
 
 @RestController
-// @RequestMapping("/api/redis")
+@RequestMapping("/api/redis")
 public class TestRedisController {
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	private Integer count = 0;
 	
-	@RequestMapping("{phone}")
+	@RequestMapping("/{phone}")
 	public String redis(@PathVariable(name = "phone") String phone) {
 		ValueOperations opsForValue = redisTemplate.opsForValue();
 		opsForValue.set("name", "admin");
 		Object object = opsForValue.get("name");
-		System.out.println("" + object);
+		System.out.println("object=" + object);
 		return "" + object;
 	}
 	

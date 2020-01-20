@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.reyco.kn.core.dao.OrderDao">
+	
+	<select id="get" resultType="OrderEntity" >
+		select * from `order` where `id`=#{id}
+	</select>
+	
+	<select id="listOrderNoExpire" resultType="OrderEntity">
+		select * from `order` where state = 1 and gmtExpire <![CDATA[>]]> now()
+	</select>
+
+	<!-- 根据id更新 -->
+	<update id="update">
+		update `order` set state = #{state} where id = #{id}
+	</update>
+
+	<!-- 根据id更新 -->
+	<update id="updateExpire">
+		update `order` set state = 3 where state = 1 and gmtExpire <![CDATA[<=]]> now()
+	</update>
+	
+	<insert id="save">
+		insert into `order`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			`no`,`content`,`state`,
+			<if test="desc != null and desc.trim() != ''">
+				`desc`,
+			</if>
+			`gmtExpire`,`gmtCreate`
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{no},#{content},#{state},
+			<if test="desc != null and desc.trim() != ''">
+				#{desc},
+			</if>
+			#{gmtExpire},now()
+		</trim>
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			select
+			@@identity
+		</selectKey>
+	</insert>
+
+</mapper>

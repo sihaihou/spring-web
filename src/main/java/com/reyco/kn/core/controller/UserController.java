@@ -22,7 +22,7 @@ public class UserController {
 	private UserService userService;
 	
 	
-	@RequestMapping("get/{id}")
+	@RequestMapping("/get/{id}")
 	public String get(@PathVariable(name="id")Integer id) {
 		UserEntity userEntity = userService.get(id);
 		if(null==userEntity) {
@@ -31,25 +31,25 @@ public class UserController {
 		return R.successToJson(userEntity);
 	}
 	
-	@RequestMapping("update")
+	@RequestMapping("/update")
 	public UserEntity update(@RequestBody UserEntity userEntity) {
 		UserEntity UpdateUserEntity = userService.update(userEntity);
 		return UpdateUserEntity;
 	}
 	
-	@RequestMapping("list")
+	@RequestMapping("/list")
 	public List<UserEntity> list(@RequestParam Map<String,Object> map) {
 		List<UserEntity> userEntitys = userService.list(map);
 		return userEntitys;
 	}
 	
-	@RequestMapping("delete/{id}")
+	@RequestMapping("/delete/{id}")
 	public String delete(@PathVariable(name="id")Integer id) {
 		userService.delete(id);
 		return "删除成功";
 	}
 	
-	@RequestMapping("save")
+	@RequestMapping("/save")
 	public String save(@RequestBody UserEntity userEntity) {
 		UserEntity save = userService.save(userEntity);
 		if(null==save) {

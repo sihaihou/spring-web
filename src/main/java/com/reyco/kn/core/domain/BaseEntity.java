@@ -62,5 +62,10 @@ public class BaseEntity implements Serializable{
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
+	@Override
+	public String toString() {
+		return "BaseEntity [id=" + id + ", name=" + name + ", desc=" + desc + ", state=" + state + ", gmtCreate="
+				+ gmtCreate + ", gmtModified=" + gmtModified + ", startTime=" + startTime + ", endTime=" + endTime
+				+ "]";
+	}
 }

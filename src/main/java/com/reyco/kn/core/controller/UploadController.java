@@ -2,16 +2,24 @@ package com.reyco.kn.core.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.reyco.kn.core.domain.BaseEntity;
+import com.reyco.kn.core.utils.PoiUtil;
 import com.reyco.kn.core.utils.R;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -50,4 +58,14 @@ public class UploadController {
 		return R.successToJson(imgUrl, "成功");
 	}
 
+	@RequestMapping("excel")
+	public String excel(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) throws IOException, InterruptedException, ExecutionException {
+		long start = System.currentTimeMillis();
+		List<BaseEntity> bases = PoiUtil.excelDataForkJoinTask(file);
+		long end = System.currentTimeMillis();
+		System.out.println(bases.size()+","+(end-start));
+		return bases.size()+","+(end-start);
+	}
+	
+	
 }

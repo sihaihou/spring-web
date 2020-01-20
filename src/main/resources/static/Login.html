@@ -4,11 +4,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/reyco.js"></script>
 <script type="text/javascript">
 	$(function() {
 		cookiesEnabled();
-		captcha();
-		
+		while(true){
+			sleep(100);
+			captcha();
+		}
 	})
 	function captcha() {
 		$.ajax({

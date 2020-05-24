@@ -29,7 +29,9 @@ public class ConcurrentHashMapCache implements Cache {
 	/**
 	 * 私有构造器
 	 */
-	private ConcurrentHashMapCache() {}
+	private ConcurrentHashMapCache() {
+		TaskRemoveStrategy.task();
+	}
 	/**
 	 * 私有获取属性的静态内部类
 	 * @author reyco

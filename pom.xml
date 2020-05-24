@@ -2,15 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.reyco.kn</groupId>
+	<artifactId>kn</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.1.RELEASE</version>
 	</parent>
-	<groupId>com.reyco.kn</groupId>
-	<artifactId>kn</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -22,19 +22,19 @@
 		<dependency>
 			<groupId>com.reyco.redis</groupId>
 			<artifactId>redis-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-RELEASE</version>
 		</dependency>
 		<!-- 自定义test start -->
 		<dependency>
 			<groupId>com.reyco.test</groupId>
 			<artifactId>test-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-RELEASE</version>
 		</dependency>
 		<!-- 自定义quartz start -->
 		<dependency>
 			<groupId>com.reyco.quartz</groupId>
 			<artifactId>quartz-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1-RELEASE</version>
 		</dependency>
 
 		<!-- spring web -->
@@ -120,6 +120,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		
+		<!-- freemarker -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+
+
 
 		<!-- quartz -->
 		<dependency>

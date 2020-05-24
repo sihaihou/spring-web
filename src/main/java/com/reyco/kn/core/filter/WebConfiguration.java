@@ -17,7 +17,8 @@ public class WebConfiguration {
 	public FilterRegistrationBean<Filter> configFilter() {
 		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<Filter>();
 		filterRegistrationBean.setFilter(new LogFilter());
-		filterRegistrationBean.addUrlPatterns("/api/*");
+		filterRegistrationBean.addUrlPatterns("/api/*");//需要过滤的
+		filterRegistrationBean.addInitParameter("exclusions", "/api/login/**");//不需要过滤的,需要再过滤器中获取使用
 		filterRegistrationBean.setName("logFilter");
 		filterRegistrationBean.setOrder(1);
 		return filterRegistrationBean;

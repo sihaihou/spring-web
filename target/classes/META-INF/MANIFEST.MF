@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: kn
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Admin
+Built-By: reyco
 Implementation-Vendor-Id: com.reyco.kn
-Build-Jdk: 1.8.0_92
+Build-Jdk: 1.8.0_171
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/kn
 Created-By: Maven Integration for Eclipse

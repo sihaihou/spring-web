@@ -27,8 +27,8 @@ public class TaskRemoveStrategy implements Job {
 		instance.removeStrategy();
 	}
 	
-	@PostConstruct
-	public void task() {
+	//@PostConstruct
+	public static void task() {
 		try {
 			Date startTime = new Date();
 			startTime.setTime(startTime.getTime()+1000*30);
@@ -53,6 +53,4 @@ public class TaskRemoveStrategy implements Job {
 			e.printStackTrace();
 		}
 	}
-	
-	
 }

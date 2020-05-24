@@ -13,6 +13,7 @@ import com.reyco.kn.core.service.TestService;
 
 import ma.glasnost.orika.MapperFacade;
 
+
 @Service("testService")
 public class TestServiceImpl implements TestService{
 	

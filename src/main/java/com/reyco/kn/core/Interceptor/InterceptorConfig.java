@@ -18,11 +18,11 @@ public class InterceptorConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 注册拦截器
-		//registry.addInterceptor(securityIntercepter)
+		registry.addInterceptor(securityIntercepter)
 		// 拦截的请求路径
-		//.addPathPatterns("/api/**")
+		.addPathPatterns("/api/**")
 		// 无需拦截的请求
-		//.excludePathPatterns("/api/login","/api/register","/api/captcha","/static/**");
+		.excludePathPatterns("/api/login","/api/register","/api/captcha","/api/upload","/static/**");
 	}
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -17,7 +21,7 @@ import com.jcraft.jsch.Session;
 
 public class Test {
 	public static void main(String[] args) {
-		client();
+		test();
 	}
 
 	public static void getConnect() {
@@ -80,6 +84,33 @@ public class Test {
 			}
 		}
 	}
+	
+	public static void test() {
+		String a = "a,b,a";
+		String b = "1,2,3";
+		Set<String> list1 =new HashSet();
+		List<String> list2 =new ArrayList();
+		
+		String[] aStr = a.split(",");
+		String[] bStr = b.split(",");
+		for (String tempb : bStr) {
+			for (String tempa : aStr) {
+				if(tempa.equals("a") && (tempb.equals("1")||tempb.equals("3"))) {
+					list1.add(tempb);
+				}
+				if(tempa.equals("b") && tempb.equals("2")) {
+					list2.add(tempb);
+				}
+			}
+		}
+		System.out.println(list1);
+		System.out.println(list2);
+		
+	}
+	
+	
+	
+	
 	
 	
 	
